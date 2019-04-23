@@ -1,0 +1,7 @@
+mapslicer ($VERSION) unstable; urgency=low
+
+  * Release. 
+
+    This is a debianized version of MapSlicer from git.
+
+ -- Angelos Tzotsos <gcpp.kalxas@gmail.com>  $DATE

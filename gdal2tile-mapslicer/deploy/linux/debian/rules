@@ -1,0 +1,65 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	mkdir -p $(CURDIR)/debian/mapslicer
+
+	mkdir -p $(CURDIR)/debian/mapslicer/usr/lib/mapslicer
+	cp mapslicer.py $(CURDIR)/debian/mapslicer/usr/lib/mapslicer
+	cp -r mapslicer $(CURDIR)/debian/mapslicer/usr/lib/mapslicer
+
+	mkdir -p $(CURDIR)/debian/mapslicer/usr/bin
+	ln -s /usr/lib/mapslicer/mapslicer.py $(CURDIR)/debian/mapslicer/usr/bin/mapslicer
+	#chmod a+x $(CURDIR)/debian/mapslicer/usr/bin/mapslicer
+
+	mkdir -p $(CURDIR)/debian/mapslicer/usr/share/mapslicer
+	cp -r resources/* $(CURDIR)/debian/mapslicer/usr/share/mapslicer
+
+	mkdir -p $(CURDIR)/debian/mapslicer/usr/share/applications
+	cp deploy/linux/mapslicer.desktop $(CURDIR)/debian/mapslicer/usr/share/applications
+
+	mkdir -p $(CURDIR)/debian/mapslicer/usr/share/doc/mapslicer
+	cp README.txt $(CURDIR)/debian/mapslicer/usr/share/doc/mapslicer
+
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
