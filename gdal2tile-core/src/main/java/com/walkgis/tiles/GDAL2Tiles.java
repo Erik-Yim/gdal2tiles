@@ -187,6 +187,7 @@ public class GDAL2Tiles {
 
         this.tminz = -1;
         this.tmaxz = -1;
+
 //
 //        if (this.options.containsKey("zoom")) {
 //            String[] minmax = this.options.get("zoom").split("-");

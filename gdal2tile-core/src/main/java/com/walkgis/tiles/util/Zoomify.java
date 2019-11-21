@@ -1,8 +1,5 @@
 package com.walkgis.tiles.util;
 
-
-import com.walkgis.tiles.GDAL2Tiles;
-
 import java.util.Collections;
 import java.util.LinkedList;
 
